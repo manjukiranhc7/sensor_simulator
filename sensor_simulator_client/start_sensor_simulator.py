@@ -6,6 +6,7 @@ import json
 import time
 import random
 from datetime import datetime, timezone
+import pytz
 
 mqtt_broker_url = "localhost"
 port = 1883
@@ -20,8 +21,10 @@ class SensorSimulator():
         return round(random.uniform(min_value, max_value), 2)
 
     def current_time_stamp(self):
-        current_time_utc = datetime.now(timezone.utc)
-        iso8601_formatted_time = current_time_utc.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+        current_time_utc = datetime.now(pytz.utc)
+        indian_timezone = pytz.timezone('Asia/Kolkata')
+        current_time_ist = current_time_utc.astimezone(indian_timezone)
+        iso8601_formatted_time = current_time_ist.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
         return iso8601_formatted_time
         
     def prepare_and_send_temperature_reading(self):
@@ -69,7 +72,7 @@ if __name__ == '__main__':
     if len(sys.argv)> 2:
         playback_speed = int(sys.argv[2])
     else:
-        playback_speed = 10
+        playback_speed = 5
     log.info(f"Sensor ID: {sensor_id}")
     sensor_simulator = SensorSimulator(sensor_id)
     sensor_simulator.start_simulator(playback_speed)

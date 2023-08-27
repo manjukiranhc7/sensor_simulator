@@ -1,0 +1,20 @@
+services:
+  mosquitto:
+    image: eclipse-mosquitto
+    container_name: mosquitto-broker
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+  mongodb:
+    image: mongo
+    container_name: mongodb
+  redis:
+    image: redis
+    container_name: redis
+  sensor_simulator_client:
+    build: ./sensor_simulator_client
+  sensor_backend_client:
+    build: ./sensor_backend_client
+  backend_fastapi_app:
+    build: ./backend_fastapi_app
+    ports:
+      - "8000:8000"

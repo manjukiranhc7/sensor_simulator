@@ -5,10 +5,11 @@ from schedule import Scheduler
 import json
 import time
 import random
-from datetime import datetime, timezone
+from datetime import datetime
 import pytz
 
-mqtt_broker_url = "localhost"
+log.basicConfig(level=log.INFO)
+mqtt_broker_url = "mosquitto"
 port = 1883
 
 class SensorSimulator():
@@ -34,7 +35,6 @@ class SensorSimulator():
         message = { "sensor_id": self.sensor_id, "value": temp_value, "timestamp": timestamp }
         publish_message = json.dumps(message)
         self.mqtt_plugin.publish(topic_name,publish_message)
-
 
     def prepare_and_send_humidity_reading(self):
         topic_name = "sensors/humidity"

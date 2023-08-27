@@ -2,14 +2,17 @@ from fastapi import FastAPI, HTTPException, Request
 import pymongo
 import redis
 import json
+import logging as log
 
 app = FastAPI()
 
-db_client = pymongo.MongoClient("mongodb://localhost:27017/")
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+db_client = pymongo.MongoClient("mongodb://mongodb:27017/")
+redis_client = redis.StrictRedis(host='redis', port=6379, db=0)
 data_base = db_client["backend"]
 db_collection_humidity = data_base["humidity"]
 db_collection_temperature = data_base["temperature"]
+
+log.basicConfig(level=log.DEBUG)
 
 def get_collection(url_path):
     if "humidity" in url_path:
@@ -27,7 +30,6 @@ async def fetch_data( request: Request , start_date: str | None =None,
     try:
         if start_date and end_date is not None:
             if start_date > end_date:
-                print("hii")
                 raise HTTPException(status_code=400, detail="Start date must be before end date.")
             query = {
                 "timestamp": {"$gte": start_date, "$lte": end_date}

@@ -1,9 +1,11 @@
 import pymongo
 import json
 import redis
+import logging as log
 
-db_client = pymongo.MongoClient("mongodb://localhost:27017/")
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+db_client = pymongo.MongoClient("mongodb://mongodb:27017/")
+redis_client = redis.StrictRedis(host='redis', port=6379, db=0)
+log.basicConfig(level=log.DEBUG)
 
 class MessageProcessor:
     def __init__(self, client_id) -> None:
@@ -16,13 +18,15 @@ class MessageProcessor:
         message_string = json.dumps(message)
         redis_client.lpush("latest_readings", message_string)
         redis_client.ltrim("latest_readings", 0, 9)
-        #latest_readings = redis_client.lrange("latest_readings", 0, -1)
+        log.info("Successfully stored latest data in redis data base")
 
     def store_data_in_mongodb(self,topic_name, message):
         if "temperature" in topic_name:
             self.db_collection_temperature.insert_one(message)
+            log.debug("stored recent temperature data in mongodb")
         elif "humidity" in topic_name:
             self.db_collection_humidity.insert_one(message)
+            log.debug("stored recent humidity data in mongodb")
 
     def process_incoming_message(self, topic_name, message):
         data_string = message.decode('utf-8')

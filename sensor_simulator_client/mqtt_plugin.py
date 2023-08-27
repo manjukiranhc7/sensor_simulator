@@ -34,14 +34,13 @@ class Mqttplugin:
                 break
             time.sleep(1)
             if seconds ==44:
-                log.error(f"not able to connet")
+                log.error(f"Client {self.client_id} not able to connet to broker")
         return start_success
 
     def _connect(self, mqtt_url, port_no):
         log.info(f"Connecting to MQTT Endpoint - {mqtt_url}:{port_no}")
         self.client.connect(mqtt_url, port_no, keepalive = 30)
         self.client.loop_start()
-
     
     def publish(self, topic_name, message):
         result = self.client.publish(topic_name, message)

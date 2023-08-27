@@ -3,11 +3,13 @@ import time
 import logging as log
 import sys
 
-mqtt_broker_url = "localhost"
+mqtt_broker_url = "mosquitto"
 port = 1883
+log.basicConfig(level=log.DEBUG)
 
 def start_backend_client(client_id):
     mqtt_plugin = Mqttplugin(client_id)
+    
     def stop_device():
         mqtt_plugin.stop_sensor_reader()
         sys.exit()

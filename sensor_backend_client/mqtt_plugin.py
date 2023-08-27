@@ -4,6 +4,7 @@ import time
 from message_proccessor import MessageProcessor
 
 subscribe_topics = ["sensors/temperature","sensors/humidity"]
+log.basicConfig(level=log.DEBUG)
 
 class Mqttplugin:
     def __init__(self, sensor_id):
@@ -48,7 +49,7 @@ class Mqttplugin:
                 break
             time.sleep(1)
             if seconds ==44:
-                log.error(f"not able to connet")
+                log.error(f"Client {self.client_id} not able to connet to broker")
         return start_success
 
     def _connect(self, mqtt_url, port_no):

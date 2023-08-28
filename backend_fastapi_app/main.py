@@ -15,6 +15,15 @@ db_collection_temperature = data_base["temperature"]
 log.basicConfig(level=log.DEBUG)
 
 def get_collection(url_path):
+    """
+        set data base collection based on request
+
+    Args:
+        url_path (str): requested endpoint
+
+    Returns:
+        collection
+    """
     if "humidity" in url_path:
         return db_collection_humidity
     elif "temperature" in url_path:
@@ -22,11 +31,29 @@ def get_collection(url_path):
     elif "all" in url_path:
         return db_collection_humidity,db_collection_temperature
 
-@app.get("/fetch_humidity_data")
-@app.get("/fetch_temperature_data")
-@app.get("/fetch_all_data")
+@app.get("/data")
+@app.get("/data/humidity-data")
+@app.get("/data/temperature-data")
 async def fetch_data( request: Request , start_date: str | None =None,
                      end_date: str |None = None):
+    """
+      Fetches data as per requested endpoint
+      /data endpoint fetches both humidity and temperature values of a sensor
+      /data/humidity-data fetches humidity data
+      /data/temperature-data fetches temperature data
+
+    Args:
+        request (Request): Input
+        start_date (str | None, optional): start date in ISO8601 format. Defaults to None.
+        end_date (str | None, optional): end date in ISO8601 format. Defaults to None.
+
+    Raises:
+        HTTPException: status code 400 if start date is not before end date
+        HTTPException: status code 500 for other issues
+
+    Returns:
+        result(json): requested data in json
+    """
     try:
         if start_date and end_date is not None:
             if start_date > end_date:
@@ -49,6 +76,15 @@ async def fetch_data( request: Request , start_date: str | None =None,
 
 @app.get("/fetch_latest_data")
 async def fetch_latest_data():
+    """
+        Fetches latest data from redis database
+
+    Raises:
+        HTTPException: raises status code 500 with error details
+
+    Returns:
+        latest_readings(json): latest data in json
+    """
     try:
         latest_readings = redis_client.lrange("latest_readings", 0, -1)
         latest_readings = [json.loads(item) for item in latest_readings]

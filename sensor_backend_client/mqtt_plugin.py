@@ -3,8 +3,9 @@ import logging as log
 import time
 from message_proccessor import MessageProcessor
 
-subscribe_topics = ["sensors/temperature","sensors/humidity"]
 log.basicConfig(level=log.DEBUG)
+
+subscribe_topics = ["sensors/temperature","sensors/humidity"]
 
 class Mqttplugin:
     def __init__(self, sensor_id):
@@ -31,11 +32,20 @@ class Mqttplugin:
             log.error(f"Failed to disconnect, return code %d\n",rc)
     
     def __on_message(self, client, userdata, message):
-        log.debug(f"Received message on topic: '{message.topic}'")
+        """
+            MQTT - on-message callback function when publish message is received 
+
+        Args:
+            message (json): received message payload
+        """
+        log.info(f"Received message on topic: '{message.topic}'")
         log.debug(f"Received Message: '{message.payload}'")
         self.process_message.process_incoming_message(message.topic, message.payload)
 
     def _subscribe(self, qos=1):
+        """
+            Subscribe to all topics in topic_list
+        """
         topic_list = [(topic, qos) for topic in subscribe_topics]
         self.client.subscribe(topic_list,qos)
 

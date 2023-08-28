@@ -9,6 +9,7 @@ from datetime import datetime
 import pytz
 
 log.basicConfig(level=log.INFO)
+
 mqtt_broker_url = "mosquitto"
 port = 1883
 
@@ -19,9 +20,23 @@ class SensorSimulator():
         self.scheduler = Scheduler()
 
     def generate_random_value(self,min_value, max_value):
+        """Generates random value within min and max value range
+
+        Args:
+            min_value (int): minimum value
+            max_value (int): maximum value
+
+        Returns:
+            int: random value
+        """
         return round(random.uniform(min_value, max_value), 2)
 
     def current_time_stamp(self):
+        """Returns current IST timestamp in ISO8601_formatted_date_time
+
+        Returns:
+            string: iso8601 formatted itc time
+        """
         current_time_utc = datetime.now(pytz.utc)
         indian_timezone = pytz.timezone('Asia/Kolkata')
         current_time_ist = current_time_utc.astimezone(indian_timezone)
@@ -29,6 +44,9 @@ class SensorSimulator():
         return iso8601_formatted_time
         
     def prepare_and_send_temperature_reading(self):
+        """
+            Prepares temperature data and publishes to topic
+        """
         topic_name = "sensors/temperature"
         temp_value = self.generate_random_value(20,30)
         timestamp = self.current_time_stamp()
@@ -37,6 +55,9 @@ class SensorSimulator():
         self.mqtt_plugin.publish(topic_name,publish_message)
 
     def prepare_and_send_humidity_reading(self):
+        """
+            Prepares humidity data and publishes to topic
+        """
         topic_name = "sensors/humidity"
         humidity_value = self.generate_random_value(40,70)
         timestamp = self.current_time_stamp()
@@ -45,6 +66,12 @@ class SensorSimulator():
         self.mqtt_plugin.publish(topic_name,publish_message)
 
     def start_simulator(self, playback_speed):
+        """
+            Start sensor simulator and publish data for every playback_speed interval
+
+        Args:
+            playback_speed (int): time in seconds at which simulator need to publish data
+        """
 
         def stop_device():
             self.mqtt_plugin.stop_sensor()

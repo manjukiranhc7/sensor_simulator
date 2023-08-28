@@ -2,6 +2,7 @@
 
 "Docker-compose up" will start all services mosquitto broker, mongodb, redis, sensor_simulator_client, sensor_backend_client, backend_fastapi_app.
 Port 8000 of docker container is exposed to host port 8000 which hosts backend_fastapi_app.
+Required docker and docker-compose latest version setup in users local machine.
 
 ## API-doc:
 * http://localhost:8000/data  : Fetches all data stored in database.                                                                                                                      

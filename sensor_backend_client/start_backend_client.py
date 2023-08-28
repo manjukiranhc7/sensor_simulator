@@ -3,7 +3,7 @@ import time
 import logging as log
 import sys
 
-log.basicConfig(level=log.DEBUG)
+log.basicConfig(level=log.INFO)
 
 mqtt_broker_url = "mosquitto"
 port = 1883

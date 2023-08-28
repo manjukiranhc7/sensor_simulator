@@ -5,7 +5,7 @@ import logging as log
 
 db_client = pymongo.MongoClient("mongodb://mongodb:27017/")
 redis_client = redis.StrictRedis(host='redis', port=6379, db=0)
-log.basicConfig(level=log.DEBUG)
+log.basicConfig(level=log.INFO)
 
 class MessageProcessor:
     def __init__(self, client_id) -> None:

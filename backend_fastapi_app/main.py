@@ -12,7 +12,7 @@ data_base = db_client["backend"]
 db_collection_humidity = data_base["humidity"]
 db_collection_temperature = data_base["temperature"]
 
-log.basicConfig(level=log.DEBUG)
+log.basicConfig(level=log.INFO)
 
 def get_collection(url_path):
     """
@@ -28,7 +28,7 @@ def get_collection(url_path):
         return db_collection_humidity
     elif "temperature" in url_path:
         return db_collection_temperature
-    elif "all" in url_path:
+    else:
         return db_collection_humidity,db_collection_temperature
 
 @app.get("/data")
@@ -74,7 +74,7 @@ async def fetch_data( request: Request , start_date: str | None =None,
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/fetch_latest_data")
+@app.get("/latest-data")
 async def fetch_latest_data():
     """
         Fetches latest data from redis database

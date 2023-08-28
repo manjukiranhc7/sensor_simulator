@@ -3,7 +3,7 @@ import logging as log
 import time
 from message_proccessor import MessageProcessor
 
-log.basicConfig(level=log.DEBUG)
+log.basicConfig(level=log.INFO)
 
 subscribe_topics = ["sensors/temperature","sensors/humidity"]
 

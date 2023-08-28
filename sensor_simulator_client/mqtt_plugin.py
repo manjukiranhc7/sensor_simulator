@@ -2,6 +2,8 @@ from paho.mqtt.client import Client
 import logging as log
 import time
 
+log.basicConfig(level=log.INFO)
+
 class Mqttplugin:
     def __init__(self, sensor_id):
         self.client_id = sensor_id

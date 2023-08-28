@@ -16,5 +16,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application code into the container at /sensor_simulator_client
 COPY . /sensor_simulator_client/
 
-# Command to start sensor simulator with argument ABS as sensor id and 10seconds as playbackspeed
+# Command to start sensor simulator with argument ABS as sensor id and 10 seconds as playbackspeed
 CMD ["python", "start_sensor_simulator.py", "ABS", "10"]

@@ -2,9 +2,9 @@
  
 Simulate the behavior of sensors, monitor their readings, and provide APIs to retrieve data based on specific criteria.
 
-* Sensor simulator client: Simulates the behaviour of sensors (Mqtt publisher client), publishes randomly generated temperature and humidity data to MQTT broker.
-* Sensor backend client  : Process messages recieved from sensor simulator (Mqtt subscriber client).
-* Backend fastapi app    : API service to retrive data to end users. 
+* Sensor simulator client: Simulates the behavior of sensors (Mqtt publisher client), publishes randomly generated temperature and humidity data to MQTT broker.
+* Sensor backend client  : Process messages received from sensor simulator (Mqtt subscriber client).
+* Backend fastapi app    : API service to retrieve data to end users. 
 
 Detailed description of each services is available below.
 
@@ -23,7 +23,7 @@ Dependencies are defined in requirements.txt inside each services.
 
 ### backend fastapi app:
 
-A app service using fastapi framework to create and provide apis for end user to retrive datas for sensors.
+A app service using fastapi framework to create and provide apis for end user to retrieve data for sensors.
 
 #### API Endpoints:
 
@@ -34,7 +34,7 @@ A app service using fastapi framework to create and provide apis for end user to
 2.http://localhost:8000/data/temperature-data  :  Fetches temperature data stored in database                                                                                                    
   start_date(ISO8601) and end_date(ISO8601) are optional query parameters to fetch data based on start and end date range.
 
-3.http://localhost:8000/data/humditiy-data  :  Fetches humditiy data stored in database                                                                                                          
+3.http://localhost:8000/data/humidity-data  :  Fetches humidity data stored in database                                                                                                          
   start_date(ISO8601) and end_date(ISO8601) are optional query parameters to fetch data based on start and end date range.
 
 4.http://localhost:8000/latest-data : Fetches latest 10 readings from redis
@@ -47,8 +47,8 @@ redis
 
 ### Sensor simulator client: 
 
-Sensor simulator is a mqtt client which simulates sensors behaviour, Paho-mqtt client is connected to mosquitto mqtt broker service running locally.
-User can start sensor simulator for sensor id Eg:"ABS", client id "ABS" connects to mqtt broker and starts publishing simulated temperature and humidity data for every 5 seconds for topics sensors/temperature and sensors/humdidity respectively.
+Sensor simulator is a mqtt client which simulates sensors behavior, Paho-mqtt client is connected to mosquitto mqtt broker service running locally.
+User can start sensor simulator for sensor id Eg:"ABS", client id "ABS" connects to mqtt broker and starts publishing simulated temperature and humidity data for every 5 seconds for topics sensors/temperature and sensors/humidity respectively.
 User can pass argument playbackspeed to define the rate at which data should be published.
 
 #### command:

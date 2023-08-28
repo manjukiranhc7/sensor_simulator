@@ -36,10 +36,10 @@ class MessageProcessor:
         """
         if "temperature" in topic_name:
             self.db_collection_temperature.insert_one(message)
-            log.debug("stored recent temperature data in mongodb")
+            log.info("stored recent temperature data in mongodb")
         elif "humidity" in topic_name:
             self.db_collection_humidity.insert_one(message)
-            log.debug("stored recent humidity data in mongodb")
+            log.info("stored recent humidity data in mongodb")
 
     def process_incoming_message(self, topic_name, message):
         """

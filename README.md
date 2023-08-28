@@ -10,7 +10,7 @@ Detailed description of each services is available below.
 
 ## Getting started
 
-Easy system setup using docker-compose. All services can be started with just one command "docker-compose up" starts all services and exposes 8000 host port for fastapi app service.
+Easy system setup using docker-compose. All services can be started with just one command ```docker-compose up``` starts all services and exposes 8000 host port for fastapi app service.
 Each service has a dockerfile to build images for respective services
 
 ## Preconditions
